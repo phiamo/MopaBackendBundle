@@ -1,0 +1,53 @@
+
+<table class="table table-condensed sonata-ba-list">
+<tbody>
+		<tr>
+			<td colspan="2" style="background: none repeat scroll 0 0 #F7F7F7;"><strong>Analytics</strong></td>
+		</tr>
+		<tr>
+			<td><div id='dataOverTimeConfig'></div>
+			<div id='dataOverTimeConfig2'></div></td>
+		</tr>
+	</tbody>
+</table>  
+<script type="text/javascript">
+function adminInit() {
+    // Create new Chart.
+    var dataOverTime = new gadash.Chart({
+        'last-n-days': 30,
+        'divContainer': 'dataOverTimeConfig',
+        'type': 'LineChart',
+        'query': {
+          'dimensions': 'ga:date',
+          'sort': 'ga:date',
+          'metrics': 'ga:visitors, ga:visits, ga:pageviews',
+          'ids' : gadash.tableId      
+        },
+        'chartOptions': {
+            height: 300,
+            legend: {position: 'bottom'},
+            hAxis: {title:'Date'},
+            curveType: 'function'
+        }
+    }).render();/*
+    var dataOverTime2 = new gadash.Chart({
+        'last-n-days': 30,
+        'divContainer': 'dataOverTimeConfig2',
+        'type': 'LineChart',
+        'query': {
+          'dimensions': 'ga:goalCompletionLocation',
+          'sort': 'ga:goalCompletionLocation',
+          'metrics': 'ga:goalCompletionsAll, ga:goalStartsAll',
+          'ids' : gadash.tableId      
+        },
+        'chartOptions': {
+            height: 300,
+            legend: {position: 'bottom'},
+            hAxis: {title:'Date'},
+            curveType: 'function'
+        }
+    }).render();*/
+}
+</script><button id="authorize-button" style="visibility:hidden">Authorize Google Analytics</button>
+{% include "GoogleBundle:Analytics:dashboard.html.twig" with { 'initCallback' : 'adminInit', 'authorizeButton': 'authorize-button' } %}
+        
