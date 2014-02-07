@@ -29,15 +29,14 @@ function adminInit() {
             hAxis: {title:'Date'},
             curveType: 'function'
         }
-    }).render();/*
+    }).render();
     var dataOverTime2 = new gadash.Chart({
-        'last-n-days': 30,
+        'last-n-days': 15,
         'divContainer': 'dataOverTimeConfig2',
         'type': 'LineChart',
         'query': {
-          'dimensions': 'ga:goalCompletionLocation',
-          'sort': 'ga:goalCompletionLocation',
-          'metrics': 'ga:goalCompletionsAll, ga:goalStartsAll',
+          'dimensions': 'ga:date',
+          'metrics': 'ga:goalStartsAll, ga:goalConversionRateAll',
           'ids' : gadash.tableId      
         },
         'chartOptions': {
@@ -46,7 +45,7 @@ function adminInit() {
             hAxis: {title:'Date'},
             curveType: 'function'
         }
-    }).render();*/
+    }).render();
 }
 </script><button id="authorize-button" style="visibility:hidden">Authorize Google Analytics</button>
 {% include "GoogleBundle:Analytics:dashboard.html.twig" with { 'initCallback' : 'adminInit', 'authorizeButton': 'authorize-button' } %}
