@@ -32,11 +32,7 @@ class FormPass implements CompilerPassInterface
         if (!in_array($template, $resources)) {
             // If form_div_layout.html.twig is found, insert BootstrapBundle right after
             // Else insert Mopa in first position
-            if (false !== ($key = array_search('form_div_layout.html.twig', $resources))) {
-                array_splice($resources, ++$key, 0, $template);
-            } else {
-                array_unshift($resources, $template);
-            }
+            array_push($resources, $template);
 
             $container->setParameter('twig.form.resources', $resources);
         }
