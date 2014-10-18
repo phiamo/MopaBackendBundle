@@ -50,6 +50,7 @@ class GoogleAnalyticsBlockService extends BaseBlockService
     public function execute(BlockContextInterface $blockContext, Response $response = null)
     {
     	return $this->renderResponse($this->template, array(
+            'block' => $blockContext->getBlock()
     	));
     }
     

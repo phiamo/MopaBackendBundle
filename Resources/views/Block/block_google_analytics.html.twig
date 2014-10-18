@@ -1,15 +1,15 @@
+{% extends sonata_block.templates.block_base %}
 
-<table class="table table-condensed sonata-ba-list">
-<tbody>
-		<tr>
-			<td colspan="2" style="background: none repeat scroll 0 0 #F7F7F7;"><strong>Analytics</strong></td>
-		</tr>
-		<tr>
-			<td><div id='dataOverTimeConfig'></div>
-			<div id='dataOverTimeConfig2'></div></td>
-		</tr>
-	</tbody>
-</table>  
+{% block block %}
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title">Analytics</h3>
+        </div>
+        <div class="box-body">
+            <div id='dataOverTimeConfig'></div>
+            <div id='dataOverTimeConfig2'></div>
+        </div>
+    </div>
 <script type="text/javascript">
 function adminInit() {
     // Create new Chart.
@@ -49,4 +49,4 @@ function adminInit() {
 }
 </script><button id="authorize-button" style="visibility:hidden">Authorize Google Analytics</button>
 {% include "GoogleBundle:Analytics:dashboard.html.twig" with { 'initCallback' : 'adminInit', 'authorizeButton': 'authorize-button' } %}
-        
+{% endblock %}
