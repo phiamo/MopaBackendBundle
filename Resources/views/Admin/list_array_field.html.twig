@@ -1,0 +1,10 @@
+
+{% for key, val in value %}
+    [{{ key }} => {% if val is iterable %}
+    {% include _self.templateName.__toString with {value: val, extends: false} %}]
+{% else %}
+    {{ val.timestamp is defined ? val|date('d.m.Y H:i') : val }}]
+{% endif %}
+
+    {% if not loop.last %}<br>{% endif %}
+{% endfor %}
