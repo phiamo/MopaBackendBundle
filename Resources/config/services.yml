@@ -1,7 +1,7 @@
 parameters:
     mopa_backend.google_analytics.block.service.class: Mopa\Bundle\BackendBundle\Block\GoogleAnalyticsBlockService
     mopa_backend.form.image_type_extension.class: Mopa\Bundle\BackendBundle\Form\Extension\ImageTypeExtension
-
+    mopa_backend.admin_extension.settings.class: Mopa\Bundle\BackendBundle\Admin\Extension\BlockSettingsExtension
 services:
     mopa_backend.google_analytics.block.service:
         class: %mopa_backend.google_analytics.block.service.class%
@@ -13,4 +13,9 @@ services:
     mopa_backend.form.image_type_extension:
         class: Mopa\Bundle\BackendBundle\Form\Extension\ImageTypeExtension
         tags:
-            - { name: form.type_extension, alias: file }
+            - { name: "form.type_extension", alias: file }
+
+    mopa_backend.admin_extension.settings:
+        class: %mopa_backend.admin_extension.settings.class%
+        tags:
+            - { name: "sonata.admin.extension" }
