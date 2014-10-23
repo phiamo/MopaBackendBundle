@@ -1,15 +1,13 @@
 <?php
 namespace Mopa\Bundle\BackendBundle\Admin\Extension;
 
-use Mopa\Bundle\BackendBundle\Admin\SoftdeleteTrait;
+use Mopa\Bundle\BackendBundle\Admin\SoftdeleteAdminTrait;
 use Sonata\AdminBundle\Admin\AdminExtension;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
-use Symfony\Component\Form\Exception\InvalidArgumentException;
 
 class SoftdeleteExtension extends AdminExtension
 {
-    use SoftdeleteTrait;
+    use SoftdeleteAdminTrait;
 
     /**
      * @param DatagridMapper $datagridMapper

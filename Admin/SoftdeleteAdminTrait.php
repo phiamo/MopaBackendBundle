@@ -5,7 +5,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Symfony\Component\Form\Exception\InvalidArgumentException;
 
-trait SoftdeleteTrait{
+    trait SoftdeleteAdminTrait {
 
     /**
      * @param ProxyQuery $proxyQuery
