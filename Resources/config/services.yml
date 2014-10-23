@@ -2,13 +2,13 @@ parameters:
     mopa_backend.google_analytics.block.service.class: Mopa\Bundle\BackendBundle\Block\GoogleAnalyticsBlockService
     mopa_backend.form.image_type_extension.class: Mopa\Bundle\BackendBundle\Form\Extension\ImageTypeExtension
     mopa_backend.admin_extension.settings.class: Mopa\Bundle\BackendBundle\Admin\Extension\BlockSettingsExtension
+    mopa_backend.admin_extension.softdelete.class: Mopa\Bundle\BackendBundle\Admin\Extension\SoftdeleteExtension
 services:
     mopa_backend.google_analytics.block.service:
         class: %mopa_backend.google_analytics.block.service.class%
         arguments: ["mopa_backend.google_analytics.block.service", @templating]
         tags:
             - { name: "sonata.block"}
-
 
     mopa_backend.form.image_type_extension:
         class: Mopa\Bundle\BackendBundle\Form\Extension\ImageTypeExtension
@@ -17,5 +17,10 @@ services:
 
     mopa_backend.admin_extension.settings:
         class: %mopa_backend.admin_extension.settings.class%
+        tags:
+            - { name: "sonata.admin.extension" }
+
+    mopa_backend.admin_extension.softdelete:
+        class: %mopa_backend.admin_extension.softdelete.class%
         tags:
             - { name: "sonata.admin.extension" }
