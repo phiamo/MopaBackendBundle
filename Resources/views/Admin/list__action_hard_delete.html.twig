@@ -1,0 +1,6 @@
+{% if admin.hasRoute('hard_delete') and admin.isGranted('HARD_DELETE') %}
+    <a href="{{ admin.generateObjectUrl('hard_delete', object) }}" class="btn view_link btn-sm btn-default" title="{{ 'hard_delete'|trans({}, 'MopaBackendBundle') }}">
+        <i class="icon-retweet"></i>
+        {{ 'hard_delete'|trans({}, 'MopaBackendBundle') }}
+    </a>
+{% endif %}
