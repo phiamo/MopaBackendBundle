@@ -5,23 +5,8 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Symfony\Component\Form\Exception\InvalidArgumentException;
 
-    trait SoftdeleteAdminTrait {
+trait SoftdeleteAdminTrait {
 
-    /**
-     * @param ProxyQuery $proxyQuery
-     * @return mixed
-     */
-    protected function configureSoftdeletable(ProxyQuery $proxyQuery){
-
-    }
-
-    /**
-     * @param ProxyQuery $proxyQuery
-     * @return mixed
-     */
-    protected function configureSoftdeletableFilter(array $value, ProxyQuery $proxyQuery, $alias){
-
-    }
     /**
      * Disable softdelete here
      * needed for not having deleted entities in relations,
@@ -37,6 +22,29 @@ use Symfony\Component\Form\Exception\InvalidArgumentException;
     }
 
     /**
+     * @param ProxyQuery $proxyQuery
+     * @return mixed
+     */
+    protected function configureSoftdeletable(ProxyQuery $proxyQuery){
+
+    }
+
+    /**
+     * @param ProxyQuery $proxyQuery
+     * @return mixed
+     */
+    protected function configureSoftdeletableFilter(array $value, ProxyQuery $proxyQuery){
+
+    }
+
+    protected function getDisplayChoices(){
+        return [
+            'default' => 'Alle ausser gelöschte',
+            'deleted' => 'nur gelöschte',
+            'all' => 'Alles',
+        ];
+    }
+    /**
      * @param DatagridMapper $datagridMapper
      */
     public function addSoftdeleteDatagridFilter(DatagridMapper $datagridMapper){
@@ -44,10 +52,13 @@ use Symfony\Component\Form\Exception\InvalidArgumentException;
             return;
         }
         $admin = $this;
+        $choices = $admin->getDisplayChoices();
+        $default = $choices['default'];
+        unset($choices['default']);
         $datagridMapper
             ->add('display_choice', 'doctrine_orm_callback', array(
                 'callback' => function (ProxyQuery $proxyQuery, $alias, $field, $value) use ($admin){
-                    $admin->configureSoftdeletable($proxyQuery, $alias);
+                    $admin->configureSoftdeletable($proxyQuery);
                     switch ($value['value']) {
                         case null:
                             $proxyQuery->andWhere($alias.'.deletedAt IS NULL');
@@ -66,20 +77,15 @@ use Symfony\Component\Form\Exception\InvalidArgumentException;
                         default:
                             throw new InvalidArgumentException('Unknown value: ' . $value['value']);
                     }
-                    $admin->configureSoftdeletableFilter($value, $proxyQuery, $alias);
+                    $admin->configureSoftdeletableFilter($value, $proxyQuery);
                     return true;
                 },
                 'field_type' => 'choice',
                 'label' => 'Anzeige'
             ), 'choice', array(
-                'choices' => array(
-                    'past' => 'Vergangene',
-                    'notdeleted' => 'Alle ausser gelöschte',
-                    'deleted' => 'nur gelöschte',
-                    'all' => 'Alles'
-                ),
+                'choices' => $choices,
                 'attr' => array(
-                    'placeholder' => 'Zukünftige'
+                    'placeholder' => $default
                 )
 
             ))

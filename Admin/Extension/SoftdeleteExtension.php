@@ -18,6 +18,7 @@ class SoftdeleteExtension extends AdminExtension
     public function configureDatagridFilters(DatagridMapper $datagridMapper){
         $this->addSoftdeleteDatagridFilter($datagridMapper);
     }
+
     /**
      * @param ListMapper $listMapper
      */
@@ -31,7 +32,7 @@ class SoftdeleteExtension extends AdminExtension
      * @param RouteCollection $collection
      */
     public function configureRoutes(AdminInterface $admin, RouteCollection $collection)
-    {echo "HER";
-        $collection->add('hard_delete');
+    {
+        $collection->add('hard_delete', $admin->getRouterIdParameter() . '/hard_delete');
     }
 }
