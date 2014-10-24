@@ -4,9 +4,9 @@ namespace Mopa\Bundle\BackendBundle\Controller;
 use Sonata\AdminBundle\Controller\CRUDController;
 
 /**
- * Class SoftdeleteAdminController
+ * Class SoftDeleteableAdminController
  * @package Mopa\Bundle\BackendBundle\Controller
  */
-class SoftdeleteAdminController extends CRUDController{
-    use SoftdeleteAdminControllerTrait;
+class SoftDeleteableAdminController extends CRUDController{
+    use SoftDeleteableAdminControllerTrait;
 }

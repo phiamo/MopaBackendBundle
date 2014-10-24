@@ -9,16 +9,11 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
- * Class SoftdeleteAdminControllerTrait
+ * Class SoftDeleteableAdminControllerTrait
  * @package Mopa\Bundle\BackendBundle\Controller
  */
-trait SoftdeleteAdminControllerTrait
+trait SoftDeleteableAdminControllerTrait
 {
-    protected function deleteSoftdeleted($object) {
-        $this->disableSoftdeleteListener();
-        $this->getManager()->remove($object);
-        $this->getManager()->flush();
-    }
     /**
      * @param int $id
      * @return RedirectResponse
@@ -42,7 +37,8 @@ trait SoftdeleteAdminControllerTrait
             $this->validateCsrfToken('sonata.delete');
 
             try {
-                $this->deleteSoftdeleted($object);
+                $hd = $this->get('mopa_backend.harddeleter');
+                $hd->purge($object);
 
                 if ($this->isXmlHttpRequest()) {
                     return $this->renderJson(array('result' => 'ok'));
@@ -83,24 +79,4 @@ trait SoftdeleteAdminControllerTrait
         ));
     }
 
-    /**
-     * @return EntityManager
-     */
-    protected function getManager(){
-
-        return $this->get('doctrine.orm.entity_manager');
-    }
-
-    /**
-     * disable the listener
-     */
-    protected function disableSoftdeleteListener(){
-        foreach ($this->get('doctrine.orm.entity_manager')->getEventManager()->getListeners() as $eventName => $listeners) {
-            foreach ($listeners as $listener) {
-                if ($listener instanceof SoftDeleteableListener) {
-                    $this->getManager()->getEventManager()->removeEventListener($eventName, $listener);
-                }
-            }
-        }
-    }
 }

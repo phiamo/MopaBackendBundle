@@ -1,7 +1,7 @@
 <?php
 namespace Mopa\Bundle\BackendBundle\Admin\Extension;
 
-use Mopa\Bundle\BackendBundle\Admin\SoftdeleteAdminTrait;
+use Mopa\Bundle\BackendBundle\Admin\SoftDeleteableAdminTrait;
 use Sonata\AdminBundle\Admin\AdminExtension;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -10,7 +10,7 @@ use Sonata\AdminBundle\Route\RouteCollection;
 
 class SoftdeleteExtension extends AdminExtension
 {
-    use SoftdeleteAdminTrait;
+    use SoftDeleteableAdminTrait;
 
     /**
      * @param DatagridMapper $datagridMapper

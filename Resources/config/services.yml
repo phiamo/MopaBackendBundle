@@ -3,6 +3,7 @@ parameters:
     mopa_backend.form.image_type_extension.class: Mopa\Bundle\BackendBundle\Form\Extension\ImageTypeExtension
     mopa_backend.admin_extension.settings.class: Mopa\Bundle\BackendBundle\Admin\Extension\BlockSettingsExtension
     mopa_backend.admin_extension.softdelete.class: Mopa\Bundle\BackendBundle\Admin\Extension\SoftdeleteExtension
+    mopa_backend.harddelete.class: Mopa\Bundle\BackendBundle\Entity\HardDeleter
 services:
     mopa_backend.google_analytics.block.service:
         class: %mopa_backend.google_analytics.block.service.class%
@@ -22,5 +23,11 @@ services:
 
     mopa_backend.admin_extension.softdelete:
         class: %mopa_backend.admin_extension.softdelete.class%
+        tags:
+            - { name: "sonata.admin.extension" }
+
+    mopa_backend.harddeleter:
+        class: %mopa_backend.harddelete.class%
+        arguments: [@doctrine.orm.entity_manager]
         tags:
             - { name: "sonata.admin.extension" }
