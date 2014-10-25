@@ -4,6 +4,7 @@ parameters:
     mopa_backend.admin_extension.settings.class: Mopa\Bundle\BackendBundle\Admin\Extension\BlockSettingsExtension
     mopa_backend.admin_extension.softdelete.class: Mopa\Bundle\BackendBundle\Admin\Extension\SoftdeleteExtension
     mopa_backend.harddelete.class: Mopa\Bundle\BackendBundle\Entity\HardDeleter
+    mopa_backend.admin.list_filter_buttons_top.class: Mopa\Bundle\BackendBundle\Block\AdminDataGridFilterButtonsEvent
 services:
     mopa_backend.google_analytics.block.service:
         class: %mopa_backend.google_analytics.block.service.class%
@@ -31,3 +32,8 @@ services:
         arguments: [@doctrine.orm.entity_manager]
         tags:
             - { name: "sonata.admin.extension" }
+
+    mopa_backend.admin.list_filter_buttons_top:
+        class: %mopa_backend.admin.list_filter_buttons_top.class%
+        tags:
+            - { name: kernel.event_listener, event: sonata.block.event.sonata.admin.list.filter.top, method: onBlock}
