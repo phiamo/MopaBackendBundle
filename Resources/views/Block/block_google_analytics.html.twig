@@ -1,6 +1,7 @@
 {% extends sonata_block.templates.block_base %}
 
 {% block block %}
+    {% if is_granted('ROLE_MOPA_ANALYTICS') %}
     <div class="box">
         <div class="box-header">
             <h3 class="box-title">Analytics</h3>
@@ -49,4 +50,5 @@ function adminInit() {
 }
 </script><button id="authorize-button" style="visibility:hidden">Authorize Google Analytics</button>
 {% include "GoogleBundle:Analytics:dashboard.html.twig" with { 'initCallback' : 'adminInit', 'authorizeButton': 'authorize-button' } %}
+{% endif %}
 {% endblock %}
