@@ -9,19 +9,26 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Validator\ErrorElement;
 use Sonata\BlockBundle\Block\BaseBlockService;
 use Sonata\BlockBundle\Block\BlockContextInterface;
-use Sonata\BlockBundle\Block\BlockServiceInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Sonata\AdminBundle\Admin\Pool;
 
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Cnr\WebsiteBundle\Entity\BednRide;
-use Cnr\WebsiteBundle\Entity\BednRideBooking;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Core\SecurityContextInterface;
 
 
 class GoogleAnalyticsBlockService extends BaseBlockService
 {
+    /**
+     * @var SecurityContextInterface
+     */
+    private $securityContext;
+
+    public function __construct($name, EngineInterface $templating, SecurityContextInterface $securityContext){
+        parent::__construct($name, $templating);
+        $this->securityContext = $securityContext;
+    }
     protected $template = 'MopaBackendBundle:Block:block_google_analytics.html.twig';
     
     public function getName()
@@ -49,9 +56,12 @@ class GoogleAnalyticsBlockService extends BaseBlockService
      */
     public function execute(BlockContextInterface $blockContext, Response $response = null)
     {
-    	return $this->renderResponse($this->template, array(
-            'block' => $blockContext->getBlock()
-    	));
+        if($this->securityContext->isGranted('ROLE_MOPA_ANALYTICS')) {
+            return $this->renderResponse($this->template, array(
+                'block' => $blockContext->getBlock()
+            ));
+        }
+        return $response;
     }
     
     

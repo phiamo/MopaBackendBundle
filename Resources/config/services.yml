@@ -8,7 +8,10 @@ parameters:
 services:
     mopa_backend.google_analytics.block.service:
         class: %mopa_backend.google_analytics.block.service.class%
-        arguments: ["mopa_backend.google_analytics.block.service", @templating]
+        arguments:
+            - "mopa_backend.google_analytics.block.service"
+            - @templating
+            - @security.context
         tags:
             - { name: "sonata.block"}
 
