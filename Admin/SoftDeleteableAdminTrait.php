@@ -40,10 +40,12 @@ trait SoftDeleteableAdminTrait {
     protected function getDisplayChoices(){
         return [
             'default' => 'Alle ausser gelöschte',
+            'notdeleted' => 'Alle ausser gelöschte',
             'deleted' => 'nur gelöschte',
             'all' => 'Alles',
         ];
     }
+
     /**
      * @param DatagridMapper $datagridMapper
      */
@@ -54,13 +56,18 @@ trait SoftDeleteableAdminTrait {
         $admin = $this;
         $choices = $admin->getDisplayChoices();
         $default = $choices['default'];
+
         unset($choices['default']);
+
         $datagridMapper
             ->add('display_choice', 'doctrine_orm_callback', array(
                 'callback' => function (ProxyQuery $proxyQuery, $alias, $field, $value) use ($admin){
                     $admin->configureSoftdeletable($proxyQuery);
                     switch ($value['value']) {
                         case null:
+                            $proxyQuery->andWhere($alias.'.deletedAt IS NULL');
+                            break;
+                        case "future":
                             $proxyQuery->andWhere($alias.'.deletedAt IS NULL');
                             break;
                         case "past":
