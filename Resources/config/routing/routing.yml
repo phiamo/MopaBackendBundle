@@ -12,11 +12,9 @@ fng_one_page_put_document:
         subject: .+
         _method: PUT
 
-fng_onepage_sitemap:
-    path: /sitemap.{_format}
+mopa_backend_sitemap:
+    path: /sitemap.xml
     defaults:
         _controller: MopaBackendBundle:SiteMap:siteMap
-        _format: xml
     requirements:
-        _format: xml
         _method: GET

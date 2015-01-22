@@ -1,24 +1,22 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: fle
- * Date: 03.11.14
- * Time: 14:10
- */
 namespace Mopa\Bundle\BackendBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class SiteMapController
+ * @package Mopa\Bundle\BackendBundle\Controller
+ */
 class SiteMapController extends Controller
 {
-
     /**
-     * @Template()
      */
     public function siteMapAction(Request $request)
     {
-        return $this->get('mopa_backend.sitemap')->render();
+        $response = new Response();
+        $response->headers->set('Content-Type', 'text/xml');
+        return $this->render('MopaBackendBundle:SiteMap:siteMap.xml.twig', $this->get('mopa_backend.sitemap')->render(), $response);
     }
 }
