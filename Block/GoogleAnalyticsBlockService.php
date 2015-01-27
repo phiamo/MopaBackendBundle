@@ -25,34 +25,64 @@ class GoogleAnalyticsBlockService extends BaseBlockService
      */
     private $securityContext;
 
-    public function __construct($name, EngineInterface $templating, SecurityContextInterface $securityContext){
+    /**
+     * @var null|string
+     */
+    protected $template = 'MopaBackendBundle:Block:block_google_analytics.html.twig';
+
+    /**
+     * @param string $name
+     * @param EngineInterface $templating
+     * @param SecurityContextInterface $securityContext
+     * @param null $template
+     */
+    public function __construct($name, EngineInterface $templating, SecurityContextInterface $securityContext, $template = null)
+    {
         parent::__construct($name, $templating);
         $this->securityContext = $securityContext;
+
+        if(null !== $template){
+            $this->template = $template;
+        }
+
     }
-    protected $template = 'MopaBackendBundle:Block:block_google_analytics.html.twig';
-    
+
+    /**
+     * @return string
+     */
     public function getName()
     {
         return 'mopa_backend.google_analytics.block.service';
     }
 
+    /**
+     * @return array
+     */
     public function getDefaultSettings()
     {
         return array();
     }
 
+    /**
+     * @param ErrorElement $errorElement
+     * @param BlockInterface $block
+     */
     public function validateBlock(ErrorElement $errorElement, BlockInterface $block)
     {
     }
 
+    /**
+     * @param FormMapper $formMapper
+     * @param BlockInterface $block
+     */
     public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
     {
     }
 
     /**
-     *
-     * @ERROR!!!
-     *
+     * @param BlockContextInterface $blockContext
+     * @param Response $response
+     * @return Response
      */
     public function execute(BlockContextInterface $blockContext, Response $response = null)
     {
