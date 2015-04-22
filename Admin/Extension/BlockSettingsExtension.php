@@ -19,6 +19,7 @@ class BlockSettingsExtension extends AdminExtension
                 ->add('settings', 'burgov_key_value', array(
                     'required' => false,
                     'value_type' => 'text',
+                    'allow_add' => true
                 ))
             ->end()
         ;
