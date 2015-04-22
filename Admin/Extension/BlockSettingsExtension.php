@@ -4,7 +4,10 @@ namespace Mopa\Bundle\BackendBundle\Admin\Extension;
 use Sonata\AdminBundle\Admin\AdminExtension;
 use Sonata\AdminBundle\Form\FormMapper;
 
-
+/**
+ * Class BlockSettingsExtension
+ * @package Mopa\Bundle\BackendBundle\Admin\Extension
+ */
 class BlockSettingsExtension extends AdminExtension
 {
     /**
