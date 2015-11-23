@@ -1,16 +1,16 @@
-fng_contact:
-    pattern: /contact
-    defaults:
-        _controller: 'fng_one_page.contact_controller:showAction'
+#fng_contact:
+#    pattern: /contact
+#    defaults:
+#        _controller: 'fng_one_page.contact_controller:showAction'
 
-fng_one_page_put_document:
-    pattern: "/{_locale}/symfony-cmf/create/draggable/{subject}"
-    defaults:
-        _controller: cmf_create.rest.controller:putDocumentAction
-        _format: json
-    requirements:
-        subject: .+
-        _method: PUT
+#fng_one_page_put_document:
+#    pattern: "/{_locale}/symfony-cmf/create/draggable/{subject}"
+#    defaults:
+#        _controller: cmf_create.rest.controller:putDocumentAction
+#        _format: json
+#    requirements:
+#        subject: .+
+#        _method: PUT
 
 mopa_backend_sitemap:
     path: /sitemap.xml
