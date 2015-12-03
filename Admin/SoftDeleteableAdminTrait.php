@@ -59,6 +59,8 @@ trait SoftDeleteableAdminTrait {
 
         unset($choices['default']);
 
+        $this->configure();
+
         $datagridMapper
             ->add('display_choice', 'doctrine_orm_callback', array(
                 'callback' => function (ProxyQuery $proxyQuery, $alias, $field, $value) use ($admin){
@@ -77,7 +79,7 @@ trait SoftDeleteableAdminTrait {
                             $proxyQuery->andWhere($alias.'.deletedAt IS NULL');
                             break;
                         case "deleted":
-                            $proxyQuery->andWhere($alias.'.deletedAt IS NOT NULL');
+                            $proxyQuery->where($alias.'.deletedAt IS NOT NULL');
                             break;
                         case "all":
                             return true;
