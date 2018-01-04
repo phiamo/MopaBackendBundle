@@ -1,5 +1,5 @@
 <?php
-namespace Mopa\Bundle\Backendbundle\Block;
+namespace Mopa\Bundle\BackendBundle\Block;
 
 use Sonata\BlockBundle\Event\BlockEvent;
 use Sonata\BlockBundle\Model\Block;
