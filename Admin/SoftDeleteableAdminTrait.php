@@ -12,7 +12,7 @@ trait SoftDeleteableAdminTrait {
      * needed for not having deleted entities in relations,
      * which would case Entity was not found.
      */
-    public function configure()
+    public function configureFilter()
     {
         $filters = $this->getModelManager()->getEntityManager($this->getClass())->getFilters();
 
@@ -53,13 +53,15 @@ trait SoftDeleteableAdminTrait {
         if($datagridMapper->has('display_choice')) {
             return;
         }
+
+        $this->configureFilter();
+
         $admin = $this;
         $choices = $admin->getDisplayChoices();
         $default = $choices['default'];
 
         unset($choices['default']);
 
-        $this->configure();
 
         $datagridMapper
             ->add('display_choice', 'doctrine_orm_callback', array(
@@ -79,6 +81,7 @@ trait SoftDeleteableAdminTrait {
                             $proxyQuery->andWhere($alias.'.deletedAt IS NULL');
                             break;
                         case "deleted":
+                            $this->configureFilter();
                             $proxyQuery->where($alias.'.deletedAt IS NOT NULL');
                             break;
                         case "all":

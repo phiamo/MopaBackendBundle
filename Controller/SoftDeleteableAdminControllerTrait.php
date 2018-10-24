@@ -3,6 +3,7 @@ namespace Mopa\Bundle\BackendBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
 use Gedmo\SoftDeleteable\SoftDeleteableListener;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Exception\ModelManagerException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -14,6 +15,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 trait SoftDeleteableAdminControllerTrait
 {
+    /** @var AbstractAdmin */
+    protected $admin;
     /**
      * @param int $id
      * @return RedirectResponse
@@ -21,7 +24,16 @@ trait SoftDeleteableAdminControllerTrait
     public function hardDeleteAction($id = null)
     {
 
-        $id     = $this->get('request')->get($this->admin->getIdParameter());
+        $id = $this->get('request')->get($this->admin->getIdParameter());
+
+        /** @var EntityManager $em */
+        $em = $this->admin->getModelManager()->getEntityManager($this->admin->getClass());
+        $filters = $em->getFilters();
+
+        if ($filters->isEnabled('softdeleteable')) {
+            $filters->disable('softdeleteable');
+        }
+
         $object = $this->admin->getObject($id);
 
         if (!$object) {
@@ -72,9 +84,9 @@ trait SoftDeleteableAdminControllerTrait
             return $this->redirectTo($object);
         }
 
-        return $this->render($this->admin->getTemplate('delete'), array(
+        return $this->render('@MopaBackend/Admin/hard_delete.html.twig', array(
             'object'     => $object,
-            'action'     => 'hard_delete',
+            'action' => 'hard_delete',
             'csrf_token' => $this->getCsrfToken('sonata.delete')
         ));
     }
