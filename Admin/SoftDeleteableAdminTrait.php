@@ -4,6 +4,7 @@ namespace Mopa\Bundle\BackendBundle\Admin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Symfony\Component\Form\Exception\InvalidArgumentException;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 trait SoftDeleteableAdminTrait {
 
@@ -92,10 +93,10 @@ trait SoftDeleteableAdminTrait {
                     $admin->configureSoftdeletableFilter($value, $proxyQuery);
                     return true;
                 },
-                'field_type' => 'choice',
+                'field_type' => ChoiceType::class,
                 'label' => 'Anzeige'
-            ), 'choice', array(
-                'choices' => $choices,
+            ), ChoiceType::class, array(
+                'choices' => array_flip($choices),
                 'attr' => array(
                     'placeholder' => $default
                 )

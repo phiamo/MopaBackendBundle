@@ -13,15 +13,15 @@ use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\CoreBundle\Validator\ErrorElement;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
 
 class GoogleAnalyticsBlockService extends AbstractAdminBlockService
 {
     /**
-     * @var SecurityContextInterface
+     * @var AuthorizationChecker
      */
-    private $securityContext;
+    private $authorizationChecker;
 
     /**
      * @var null|string
@@ -31,13 +31,13 @@ class GoogleAnalyticsBlockService extends AbstractAdminBlockService
     /**
      * @param string $name
      * @param EngineInterface $templating
-     * @param SecurityContextInterface $securityContext
+     * @param AuthorizationChecker $authorizationChecker
      * @param null $template
      */
-    public function __construct($name, EngineInterface $templating, SecurityContextInterface $securityContext, $template = null)
+    public function __construct($name, EngineInterface $templating, AuthorizationChecker $authorizationChecker, $template = null)
     {
         parent::__construct($name, $templating);
-        $this->securityContext = $securityContext;
+        $this->authorizationChecker = $authorizationChecker;
 
         if(null !== $template){
             $this->template = $template;
@@ -84,7 +84,7 @@ class GoogleAnalyticsBlockService extends AbstractAdminBlockService
      */
     public function execute(BlockContextInterface $blockContext, Response $response = null)
     {
-        if($this->securityContext->isGranted('ROLE_MOPA_ANALYTICS')) {
+        if($this->authorizationChecker->isGranted('ROLE_MOPA_ANALYTICS')) {
             return $this->renderResponse($this->template, array(
                 'block' => $blockContext->getBlock()
             ));

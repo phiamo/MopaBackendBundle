@@ -1,6 +1,6 @@
 parameters:
     mopa_backend.google_analytics.block.service.class: Mopa\Bundle\BackendBundle\Block\GoogleAnalyticsBlockService
-    mopa_backend.form.image_type_extension.class: Mopa\Bundle\BackendBundle\Form\Extension\ImageTypeExtension
+    mopa_backend.form.image_type.class: Mopa\Bundle\BackendBundle\Form\Extension\ImageType
     mopa_backend.admin_extension.settings.class: Mopa\Bundle\BackendBundle\Admin\Extension\BlockSettingsExtension
     mopa_backend.admin_extension.softdelete.class: Mopa\Bundle\BackendBundle\Admin\Extension\SoftdeleteExtension
     mopa_backend.harddelete.class: Mopa\Bundle\BackendBundle\Entity\HardDeleter
@@ -8,37 +8,45 @@ parameters:
     mopa_backend.admin.block_google_analytics.template: MopaBackendBundle:Block:block_google_analytics.html.twig
 services:
     mopa_backend.google_analytics.block.service:
-        class: %mopa_backend.google_analytics.block.service.class%
+        class: "%mopa_backend.google_analytics.block.service.class%"
         arguments:
             - "mopa_backend.google_analytics.block.service"
-            - @templating
-            - @security.context
-            - %mopa_backend.admin.block_google_analytics.template%
+            - "@templating"
+            - "@security.authorization_checker"
+            - "%mopa_backend.admin.block_google_analytics.template%"
         tags:
             - { name: "sonata.block"}
 
-    mopa_backend.form.image_type_extension:
-        class: Mopa\Bundle\BackendBundle\Form\Extension\ImageTypeExtension
+    mopa_backend.form.image_type:
+        class: Mopa\Bundle\BackendBundle\Form\Extension\ImageType
         tags:
-            - { name: "form.type_extension", alias: file }
+            - { name: "form.type" }
 
     mopa_backend.admin_extension.settings:
-        class: %mopa_backend.admin_extension.settings.class%
+        class: "%mopa_backend.admin_extension.settings.class%"
         tags:
             - { name: "sonata.admin.extension" }
 
     mopa_backend.admin_extension.softdelete:
-        class: %mopa_backend.admin_extension.softdelete.class%
+        class: "%mopa_backend.admin_extension.softdelete.class%"
         tags:
             - { name: "sonata.admin.extension" }
 
     mopa_backend.harddeleter:
-        class: %mopa_backend.harddelete.class%
-        arguments: [@doctrine.orm.entity_manager]
+        public: true
+        class: "%mopa_backend.harddelete.class%"
+        arguments: ["@doctrine.orm.entity_manager"]
         tags:
             - { name: "sonata.admin.extension" }
 
     mopa_backend.admin.list_filter_buttons_top:
-        class: %mopa_backend.admin.list_filter_buttons_top.class%
+        class: "%mopa_backend.admin.list_filter_buttons_top.class%"
         tags:
             - { name: kernel.event_listener, event: sonata.block.event.sonata.admin.list.filter.top, method: onBlock}
+
+    gedmo.listener.sortable:
+        class: Gedmo\Sortable\SortableListener
+        tags:
+        - { name: doctrine.event_subscriber, connection: default }
+        calls:
+        - [ setAnnotationReader, [ "@annotation_reader" ] ]

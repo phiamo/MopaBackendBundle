@@ -1,22 +1,18 @@
 <?php
 namespace Mopa\Bundle\BackendBundle\Form\Extension;
 
-use Symfony\Component\Form\AbstractTypeExtension;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
-class ImageTypeExtension extends AbstractTypeExtension
+class ImageType extends AbstractType
 {
-    /**
-     * Returns the name of the type being extended.
-     *
-     * @return string The name of the type being extended
-     */
-    public function getExtendedType()
+    public function getParent()
     {
-        return 'file';
+        return FileType::class;
     }
 
     /**
@@ -24,9 +20,9 @@ class ImageTypeExtension extends AbstractTypeExtension
      *
      * @param OptionsResolverInterface $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setOptional(array('image_path'));
+        $resolver->setDefaults(array('image_path' => ''));
     }
 
     /**
