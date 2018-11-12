@@ -1,8 +1,10 @@
 <?php
 namespace Mopa\Bundle\BackendBundle\Admin\Extension;
 
+use Burgov\Bundle\KeyValueFormBundle\Form\Type\KeyValueType;
 use Sonata\AdminBundle\Admin\AdminExtension;
 use Sonata\AdminBundle\Form\FormMapper;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
  * Class BlockSettingsExtension
@@ -19,9 +21,9 @@ class BlockSettingsExtension extends AdminExtension
     {
         $formMapper
             ->with('form.general', array('translation_domain' => 'CmfBlockBundle'))
-                ->add('settings', 'burgov_key_value', array(
+                ->add('settings', KeyValueType::class, array(
                     'required' => false,
-                    'value_type' => 'text',
+                    'value_type' => TextType::class,
                     'allow_add' => true
                 ))
             ->end()
