@@ -6,6 +6,7 @@ use Gedmo\SoftDeleteable\SoftDeleteableListener;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Exception\ModelManagerException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -21,10 +22,10 @@ trait SoftDeleteableAdminControllerTrait
      * @param int $id
      * @return RedirectResponse
      */
-    public function hardDeleteAction($id = null)
+    public function hardDeleteAction(Request $request, $id = null)
     {
 
-        $id = $this->get('request')->get($this->admin->getIdParameter());
+        $id = $request->get($this->admin->getIdParameter());
 
         /** @var EntityManager $em */
         $em = $this->admin->getModelManager()->getEntityManager($this->admin->getClass());
